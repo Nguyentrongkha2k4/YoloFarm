@@ -11,6 +11,6 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "adafruit")
 public class MqttProperties {
     private String username;
-    private String adakey;
+    private String adaaccess;
     private String broker;
 }

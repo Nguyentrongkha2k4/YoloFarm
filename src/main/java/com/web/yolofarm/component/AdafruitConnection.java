@@ -21,7 +21,7 @@ public class AdafruitConnection {
                     instance = new MqttClient(mqttProperties.getBroker(), MqttClient.generateClientId());
                     MqttConnectOptions options = new MqttConnectOptions();
                     options.setUserName(mqttProperties.getUsername());
-                    options.setPassword(mqttProperties.getAdakey().toCharArray());
+                    options.setPassword(mqttProperties.getAdaaccess().toCharArray());
                     instance.connect(options);
                 }
             }

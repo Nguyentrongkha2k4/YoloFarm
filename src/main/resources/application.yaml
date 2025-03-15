@@ -18,5 +18,5 @@ server:
 
 adafruit:
     username: khanguyentrong2k4
-    adakey: aio_XLvf64TcbABZKgM4BfcApo0zU2mW
+    adaaccess: aio_XLvf64TcbABZKgM4BfcApo0zU2mW
     broker: tcp://io.adafruit.com:1883
