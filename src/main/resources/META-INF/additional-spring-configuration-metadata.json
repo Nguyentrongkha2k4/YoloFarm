@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "adafruit.username",
+    "type": "java.lang.String",
+    "description": "A description for 'adafruit.username'"
+  },
+  {
+    "name": "adafruit.api_key",
+    "type": "java.lang.String",
+    "description": "A description for 'adafruit.api_key'"
+  },
+  {
+    "name": "adafruit.broker",
+    "type": "java.lang.String",
+    "description": "A description for 'adafruit.broker'"
+  }
+]}
