@@ -8,14 +8,15 @@ import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 import org.springframework.stereotype.Service;
 
 import com.web.yolofarm.component.AdafruitConnection;
+import com.web.yolofarm.configuration.MqttProperties;
 
 @Service
 public class MqttService {
     private MqttClient CLIENT;
     private final String TOPIC = "khanguyentrong2k4/feeds/";
 
-    public MqttService() throws MqttSecurityException, MqttException {
-        CLIENT = AdafruitConnection.getInstance();
+    public MqttService(MqttProperties properties) throws MqttSecurityException, MqttException {
+        CLIENT = AdafruitConnection.getInstance(properties);
 
         // Đảm bảo client đã kết nối trước khi subscribe
         if (!CLIENT.isConnected()) {

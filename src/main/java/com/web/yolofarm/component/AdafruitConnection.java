@@ -5,24 +5,23 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.stereotype.Component;
 
-import lombok.RequiredArgsConstructor;
+import com.web.yolofarm.configuration.MqttProperties;
+
 
 
 @Component
-@RequiredArgsConstructor
 public class AdafruitConnection {
     private static volatile MqttClient instance;
-    private static MqttProperties mqttProperties;
 
-
-    public static MqttClient getInstance() throws MqttException {
+    public static MqttClient getInstance(MqttProperties mqttProperties) throws MqttException {
+        
         if (instance == null || !instance.isConnected()) {
             synchronized (AdafruitConnection.class) {
                 if (instance == null || !instance.isConnected()) {
                     instance = new MqttClient(mqttProperties.getBroker(), MqttClient.generateClientId());
                     MqttConnectOptions options = new MqttConnectOptions();
                     options.setUserName(mqttProperties.getUsername());
-                    options.setPassword(mqttProperties.getApikey().toCharArray());
+                    options.setPassword(mqttProperties.getAdakey().toCharArray());
                     instance.connect(options);
                 }
             }

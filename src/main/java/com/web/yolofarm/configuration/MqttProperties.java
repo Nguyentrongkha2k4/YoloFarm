@@ -1,15 +1,16 @@
-package com.web.yolofarm.component;
+package com.web.yolofarm.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@Component
+@Setter
 @ConfigurationProperties(prefix = "adafruit")
 public class MqttProperties {
-    private String broker;
     private String username;
-    private String apikey;
+    private String adakey;
+    private String broker;
 }
