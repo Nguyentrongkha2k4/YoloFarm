@@ -11,6 +11,12 @@ spring:
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.MySQLDialect
+    websocket:
+        enabled: true
+    mvc:
+        hiddenmethod:
+            filter:
+                enabled: true
 server:
   port: 8080
   servlet:
