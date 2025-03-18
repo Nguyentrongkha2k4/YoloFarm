@@ -43,4 +43,6 @@ public class MqttController {
         mqttService.stopListeningForFeed(feed);
         return ResponseEntity.ok().body("ok");
     }
+
+    
 }

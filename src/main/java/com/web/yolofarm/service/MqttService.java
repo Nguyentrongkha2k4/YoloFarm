@@ -86,6 +86,7 @@ public class MqttService {
                 System.out.println("alert data: " + alert);
                 DeviceActivityLog device_activity_log = thresholdService.checkAndControlDevice(sensorData);
                 if (device_activity_log != null){
+                    messagingTemplate.convertAndSend("/topic/microbit/"+device_activity_log.getDeviceName(), device_activity_log);
                     new Thread(() -> publishData(
                                         device_activity_log.getDeviceName(),
                                         device_activity_log.getAction(),
