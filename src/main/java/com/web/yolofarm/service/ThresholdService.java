@@ -19,11 +19,11 @@ public class ThresholdService {
     public static final float TEMPERATURE_MIN = 20;
     public static final float TEMPERATURE_MAX = 40;
     public static final float HUMIDITY_MIN = 40;
-    public static final float HUMIDITY_MAX = 60;
-    public static final float LIGHT_MIN = 100;
-    public static final float LIGHT_MAX = 200;
-    public static final float SOIL_MOISTURE_MIN = 30;
-    public static final float SOIL_MOISTURE_MAX = 60;
+    public static final float HUMIDITY_MAX = 80;
+    public static final float LIGHT_MIN = 50;
+    public static final float LIGHT_MAX = 400;
+    public static final float SOIL_MOISTURE_MIN = 40;
+    public static final float SOIL_MOISTURE_MAX = 70;
     private final AlertRepository alertRepository;
 
     public Alert checkThreshold(SensorData sensorData) {
