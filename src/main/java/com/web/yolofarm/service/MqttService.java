@@ -22,7 +22,7 @@ import com.web.yolofarm.repository.SensorDataRepository;
 @Service
 public class MqttService {
     private MqttClient CLIENT;
-    private final String TOPIC = "khanguyentrong2k4/feeds/";
+    private final String TOPIC = "quangtu2811/feeds/";
     private final SimpMessagingTemplate messagingTemplate;
     private final SensorDataRepository sensorDataRepository;
     private final ThresholdService thresholdService;

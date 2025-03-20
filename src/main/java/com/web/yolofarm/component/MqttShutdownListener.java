@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MqttShutdownListener implements ApplicationListener<ContextClosedEvent> {
     private final MqttService mqttService;
-    private final String[] feeds={"bbc-led", "bbc-temp"};
+    private final String[] feeds={"nhietdo", "doam", "doamdat", "dosang"};
     @Override
     public void onApplicationEvent(@SuppressWarnings("null") ContextClosedEvent event) {
         for (String feed : feeds) {
