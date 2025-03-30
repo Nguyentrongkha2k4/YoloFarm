@@ -8,6 +8,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,9 @@ import com.web.yolofarm.repository.SensorDataRepository;
 @Service
 public class MqttService {
     private MqttClient CLIENT;
-    private final String TOPIC = "quangtu2811/feeds/";
+    @Value("${adafruit.username}")
+    private String username;
+    private final String TOPIC = username + "/feeds/";
     private final SimpMessagingTemplate messagingTemplate;
     private final SensorDataRepository sensorDataRepository;
     private final ThresholdService thresholdService;
