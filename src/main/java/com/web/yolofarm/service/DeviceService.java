@@ -30,4 +30,10 @@ public class DeviceService {
     public List<DeviceActivityLog> getAllDeviceLogs() {
         return deviceActivityLogRepository.findAll();
     }
+
+    public List<DeviceActivityLog> getLogsByDeviceName(String deviceName) {
+        return deviceActivityLogRepository.findByDeviceName(deviceName);
+    }
+
+
 }
