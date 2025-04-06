@@ -3,6 +3,8 @@ package com.web.yolofarm.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.web.yolofarm.entity.Threshold;
+import com.web.yolofarm.repository.ThresholdRepository;
 import org.springframework.stereotype.Service;
 import com.web.yolofarm.component.AdafruitConnection;
 import com.web.yolofarm.entity.Alert;
@@ -16,52 +18,20 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ThresholdService {
-    public static final float TEMPERATURE_MIN = 20;
-    public static final float TEMPERATURE_MAX = 40;
-    public static final float HUMIDITY_MIN = 40;
-    public static final float HUMIDITY_MAX = 80;
-    public static final float LIGHT_MIN = 50;
-    public static final float LIGHT_MAX = 400;
-    public static final float SOIL_MOISTURE_MIN = 40;
-    public static final float SOIL_MOISTURE_MAX = 70;
+    private final ThresholdRepository thresholdRepository;
     private final AlertRepository alertRepository;
 
     public Alert checkThreshold(SensorData sensorData) {
+        Threshold threshold = thresholdRepository.findById(sensorData.getType())
+                .orElseThrow(() -> new RuntimeException("Không tồn tại " + sensorData.getType()));
         String message = null;
         SensorType type = sensorData.getType();
         float value = sensorData.getValue();
 
-        switch (type) {
-            case TEMPERATURE:
-                if (value < TEMPERATURE_MIN) {
-                    message = "Nhiệt độ quá thấp! " + value + "C";
-                } else if (value > TEMPERATURE_MAX) {
-                    message = "Nhiệt độ quá cao! " + value + "C";
-                }
-                break;
-            case HUMIDITY:
-                if (value < HUMIDITY_MIN) {
-                    message = "Độ ẩm không khí quá thấp! " + value + "%";
-                } else if (value > HUMIDITY_MAX) {
-                    message = "Độ ẩm không khí quá cao! " + value + "%";
-                }
-                break;
-            case LIGHT:
-                if (value < LIGHT_MIN) {
-                    message = "Cường độ ánh sáng quá yếu! " + value + " lux";
-                } else if (value > LIGHT_MAX) {
-                    message = "Cường độ ánh sáng quá mạnh! " + value + " lux";
-                }
-                break;
-            case SOIL_MOISTURE:
-                if (value < SOIL_MOISTURE_MIN) {
-                    message = "Độ ẩm đất quá thấp! Cần tưới nước. " + value + "%";
-                } else if (value > SOIL_MOISTURE_MAX) {
-                    message = "Độ ẩm đất quá cao! Tránh tưới thêm nước. " + value + "%";
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid sensor type");
+        if (value < threshold.getMin()) {
+            message = sensorData.getType() + " quá thấp! " + value;
+        } else if (value > threshold.getMax()) {
+            message = sensorData.getType() + " quá cao! " + value;
         }
 
         if (message != null) {
@@ -83,10 +53,15 @@ public class ThresholdService {
 
     public DeviceActivityLog checkAndControlDevice(SensorData sensorData) {
         DeviceActivityLog log = null;
+        SensorType type = sensorData.getType();
+        float value = sensorData.getValue();
+
+        Threshold threshold = thresholdRepository.findById(sensorData.getType())
+                .orElseThrow(() -> new RuntimeException("Không tồn tại " + type));
     
         switch (sensorData.getType()) {
             case SOIL_MOISTURE:
-                if (sensorData.getValue() < 30) {
+                if (sensorData.getValue() < threshold.getMin()) {
                     log = DeviceActivityLog.builder()
                             .deviceName("maybom")
                             .action("on")
@@ -94,7 +69,7 @@ public class ThresholdService {
                             .reason("Độ ẩm đất thấp")
                             .timestamp(LocalDateTime.now())
                             .build();
-                } else if (sensorData.getValue() > 50) {
+                } else if (sensorData.getValue() > threshold.getMax()) {
                     log = DeviceActivityLog.builder()
                             .deviceName("maybom")
                             .action("off")
@@ -105,7 +80,7 @@ public class ThresholdService {
                 }
                 break;
             case LIGHT:
-                if (sensorData.getValue() < 50) {
+                if (sensorData.getValue() < threshold.getMin()) {
                     log = DeviceActivityLog.builder()
                             .deviceName("den")
                             .action("on")
@@ -113,7 +88,7 @@ public class ThresholdService {
                             .reason("Mức sáng thấp")
                             .timestamp(LocalDateTime.now())
                             .build();
-                } else if (sensorData.getValue() > 150) {
+                } else if (sensorData.getValue() > threshold.getMax()) {
                     log = DeviceActivityLog.builder()
                             .deviceName("den")
                             .action("off")
@@ -126,7 +101,18 @@ public class ThresholdService {
             default:
                 break;
         }
-    
         return log;
-    }    
+    }
+
+    public List<Threshold> getAllThresholds() {
+        return thresholdRepository.findAll();
+    }
+
+    public Threshold updateThreshold(SensorType type, float min, float max) {
+        Threshold threshold = thresholdRepository.findById(type)
+                .orElseThrow(() -> new RuntimeException("Không tồn tại " + type));
+        threshold.setMin(min);
+        threshold.setMax(max);
+        return thresholdRepository.save(threshold);
+    }
 }
