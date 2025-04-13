@@ -18,6 +18,8 @@ public class MqttRunner implements CommandLineRunner {
         for (String feed : feeds) {
             mqttService.startListening(feed);
         }
+
+        
     }
 
 }

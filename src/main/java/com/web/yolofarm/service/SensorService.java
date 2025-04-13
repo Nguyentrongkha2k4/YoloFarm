@@ -8,6 +8,8 @@ import com.web.yolofarm.enums.SensorType;
 import com.web.yolofarm.repository.DeviceActivityLogRepository;
 import com.web.yolofarm.repository.SensorDataRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,7 +31,8 @@ public class SensorService {
     }
 
     public List<SensorDataDto> getLogsByType(SensorType type) {
-        return sensorDataRepository.findByType(type)
+        Sort sort = Sort.by(Sort.Direction.ASC, "recordedAt");
+        return sensorDataRepository.findByType(type, sort)
                 .stream()
                 .map(sensorData -> new SensorDataDto(sensorData.getType(),
                         sensorData.getValue(),

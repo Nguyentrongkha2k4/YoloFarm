@@ -17,14 +17,14 @@ public class DeviceActivityLog {
     private Long id;
 
     @Column(nullable = false)
-    private String deviceName; // Tên thiết bị (Máy bơm, Đèn)
+    private String deviceName; 
 
     @Column(nullable = false)
-    private String action; // "Bật" hoặc "Tắt"
+    private String action; 
 
-    private String triggeredBy; // "Người dùng" hoặc "Hệ thống"
+    private String triggeredBy; 
 
-    private String reason; // Lý do bật/tắt (nếu có)
+    private String reason; 
 
-    private LocalDateTime timestamp = LocalDateTime.now(); // Thời gian thực hiện
+    private LocalDateTime timestamp = LocalDateTime.now(); 
 }

@@ -1,6 +1,9 @@
 package com.web.yolofarm.service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
 
@@ -10,12 +13,14 @@ import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.web.yolofarm.component.AdafruitConnection;
 import com.web.yolofarm.configuration.MqttProperties;
 import com.web.yolofarm.entity.Alert;
 import com.web.yolofarm.entity.DeviceActivityLog;
+import com.web.yolofarm.entity.DeviceScheduled;
 import com.web.yolofarm.entity.SensorData;
 import com.web.yolofarm.enums.SensorType;
 import com.web.yolofarm.repository.SensorDataRepository;
@@ -25,17 +30,19 @@ public class MqttService {
     private MqttClient CLIENT;
     @Value("${adafruit.username}")
     private String username;
-    private final String TOPIC = username + "/feeds/";
+    private final String TOPIC = "/feeds/";
     private final SimpMessagingTemplate messagingTemplate;
     private final SensorDataRepository sensorDataRepository;
     private final ThresholdService thresholdService;
     private final DeviceService deviceService;
+    private final DeviceScheduledService DeviceScheduledService;
 
-    public MqttService(MqttProperties properties, SimpMessagingTemplate messagingTemplate, SensorDataRepository sensorDataRepository, ThresholdService thresholdService, DeviceService deviceService) throws MqttSecurityException, MqttException {
-            this.messagingTemplate = messagingTemplate;
-            this.sensorDataRepository = sensorDataRepository;
-            this.thresholdService = thresholdService;
-            this.deviceService = deviceService;
+    public MqttService(DeviceScheduledService DeviceScheduledService,MqttProperties properties, SimpMessagingTemplate messagingTemplate, SensorDataRepository sensorDataRepository, ThresholdService thresholdService, DeviceService deviceService) throws MqttSecurityException, MqttException {
+        this.DeviceScheduledService = DeviceScheduledService;
+        this.messagingTemplate = messagingTemplate;
+        this.sensorDataRepository = sensorDataRepository;
+        this.thresholdService = thresholdService;
+        this.deviceService = deviceService;
         CLIENT = AdafruitConnection.getInstance(properties);
 
         // Đảm bảo client đã kết nối trước khi subscribe
@@ -45,8 +52,7 @@ public class MqttService {
     }
 
     public void startListening(String feed) throws Exception {
-        String topic = TOPIC + feed;
-
+        String topic = username + TOPIC + feed;
         try {
             CLIENT.subscribe(topic, (t, message) -> {
                 // TODO: Xử lý dữ liệu tại đây (lưu vào DB, hiển thị UI, ...)
@@ -112,7 +118,7 @@ public class MqttService {
             if (action.equalsIgnoreCase("on")) {
                 data = "1";
             }
-            String topic = TOPIC + feed;
+            String topic = username + TOPIC + feed;
             MqttMessage message = new MqttMessage(data.getBytes());
             message.setQos(0);
             CLIENT.publish(topic, message);
@@ -126,12 +132,47 @@ public class MqttService {
     public void stopListeningForFeed(String feed) {
         try {
             if (CLIENT != null && CLIENT.isConnected()) {
-                String topic = TOPIC + feed;
+                String topic = username + TOPIC + feed;
                 CLIENT.unsubscribe(topic);
                 System.out.println("Disconnected with: " + topic);
             }
         } catch (MqttException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Scheduled(fixedRate = 60000)
+    public void checkAndTriggerWatering() {
+        List<DeviceScheduled> schedules = DeviceScheduledService.findAllByEnable();
+        LocalTime now = LocalTime.now().withSecond(0).withNano(0);
+    
+        for (DeviceScheduled schedule : schedules) {
+            LocalTime startTime = schedule.getStartTime().withSecond(0).withNano(0);
+            Duration intervalTime = schedule.getIntervalTime();
+            Duration duration = schedule.getDuration();
+    
+            long minutesSinceStart = Duration.between(startTime, now).toMinutes();
+            if (minutesSinceStart < 0) continue; // chưa đến giờ bắt đầu
+    
+            long intervalTimesPassed = minutesSinceStart / intervalTime.toMinutes();
+            LocalTime currentCycleStart = startTime.plusMinutes(intervalTime.toMinutes() * intervalTimesPassed);
+            LocalTime currentCycleEnd = currentCycleStart.plus(duration);
+    
+            if (!now.isBefore(currentCycleStart) && now.isBefore(currentCycleEnd)) {
+                // Trong thời gian tưới
+                try {
+                    publishData(schedule.getDeviceName(), "on", "SYSTEM", "Scheduled");
+                } catch (Exception e) {
+                    System.out.println("error: " + e.getMessage());
+                }
+            } else {
+                // Ngoài thời gian tưới
+                try {
+                    publishData(schedule.getDeviceName(), "off", "SYSTEM", "Scheduled");
+                } catch (Exception e) {
+                    System.out.println("error: " + e.getMessage());
+                }
+            }
         }
     }
 }
