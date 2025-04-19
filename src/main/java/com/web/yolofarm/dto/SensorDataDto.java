@@ -1,6 +1,5 @@
 package com.web.yolofarm.dto;
 
-import com.web.yolofarm.entity.SensorData;
 import com.web.yolofarm.enums.SensorType;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.web.yolofarm.service;
+package com.web.yolofarm.service.threshold;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.List;
 import com.web.yolofarm.entity.Threshold;
 import com.web.yolofarm.repository.ThresholdRepository;
 import org.springframework.stereotype.Service;
-import com.web.yolofarm.component.AdafruitConnection;
 import com.web.yolofarm.entity.Alert;
 import com.web.yolofarm.entity.DeviceActivityLog;
 import com.web.yolofarm.entity.SensorData;
@@ -17,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ThresholdService {
+public class ThresholdService implements IThresholdService{
     private final ThresholdRepository thresholdRepository;
     private final AlertRepository alertRepository;
 
@@ -54,7 +53,7 @@ public class ThresholdService {
     public DeviceActivityLog checkAndControlDevice(SensorData sensorData) {
         DeviceActivityLog log = null;
         SensorType type = sensorData.getType();
-        float value = sensorData.getValue();
+        // float value = sensorData.getValue();
 
         Threshold threshold = thresholdRepository.findById(sensorData.getType())
                 .orElseThrow(() -> new RuntimeException("Không tồn tại " + type));

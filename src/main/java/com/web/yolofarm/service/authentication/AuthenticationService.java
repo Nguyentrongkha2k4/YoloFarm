@@ -1,4 +1,4 @@
-package com.web.yolofarm.service;
+package com.web.yolofarm.service.authentication;
 
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationService implements IAuthenticationService{
     private final UserRepository userRepository;
     private final JwtAuthentication jwtAuthentication;
 

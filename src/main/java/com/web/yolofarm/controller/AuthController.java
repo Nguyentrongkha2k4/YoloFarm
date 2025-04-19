@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.yolofarm.dto.ResponseObject;
 import com.web.yolofarm.dto.request.userLoginRequest;
 import com.web.yolofarm.dto.response.AuthenticationResponse;
-import com.web.yolofarm.service.AuthenticationService;
+import com.web.yolofarm.service.authentication.IAuthenticationService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final AuthenticationService authenticationService;
+    private final IAuthenticationService authenticationService;
 
     @PostMapping("/login")
     public ResponseObject<AuthenticationResponse> postMethodName(@RequestBody userLoginRequest request) {

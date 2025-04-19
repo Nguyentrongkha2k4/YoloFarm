@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.yolofarm.dto.ResponseObject;
 import com.web.yolofarm.dto.request.DeviceScheduledCreationRequest;
 import com.web.yolofarm.entity.DeviceScheduled;
-import com.web.yolofarm.service.DeviceScheduledService;
+import com.web.yolofarm.service.deviceScheduled.IDeviceScheduledService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/DeviceScheduled")
 @RequiredArgsConstructor
 public class DeviceScheduledController {
-    private final DeviceScheduledService DeviceScheduledService;
+    private final IDeviceScheduledService DeviceScheduledService;
 
     @PostMapping("/create")
     public ResponseObject<DeviceScheduled> postMethodName(@RequestBody DeviceScheduledCreationRequest request) {

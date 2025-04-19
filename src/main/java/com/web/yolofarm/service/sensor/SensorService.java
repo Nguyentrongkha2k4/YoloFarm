@@ -1,11 +1,8 @@
-package com.web.yolofarm.service;
+package com.web.yolofarm.service.sensor;
 
-import com.web.yolofarm.dto.DeviceLogDto;
 import com.web.yolofarm.dto.SensorDataDto;
-import com.web.yolofarm.entity.DeviceActivityLog;
 import com.web.yolofarm.entity.SensorData;
 import com.web.yolofarm.enums.SensorType;
-import com.web.yolofarm.repository.DeviceActivityLogRepository;
 import com.web.yolofarm.repository.SensorDataRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -14,11 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class SensorService {
+public class SensorService implements ISensorService{
     private final SensorDataRepository sensorDataRepository;
 
     public List<SensorDataDto> getAllSensorData() {

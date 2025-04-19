@@ -3,8 +3,7 @@ package com.web.yolofarm.component;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.web.yolofarm.service.MqttService;
-
+import com.web.yolofarm.service.mqtt.MqttService;
 
 import lombok.RequiredArgsConstructor;
 

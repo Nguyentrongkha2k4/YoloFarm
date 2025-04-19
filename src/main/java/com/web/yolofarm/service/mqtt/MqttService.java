@@ -1,4 +1,4 @@
-package com.web.yolofarm.service;
+package com.web.yolofarm.service.mqtt;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -10,7 +10,6 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttSecurityException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,20 +23,23 @@ import com.web.yolofarm.entity.DeviceScheduled;
 import com.web.yolofarm.entity.SensorData;
 import com.web.yolofarm.enums.SensorType;
 import com.web.yolofarm.repository.SensorDataRepository;
+import com.web.yolofarm.service.device.IDeviceService;
+import com.web.yolofarm.service.deviceScheduled.IDeviceScheduledService;
+import com.web.yolofarm.service.threshold.IThresholdService;
 
 @Service
-public class MqttService {
+public class MqttService implements IMqttService{
     private MqttClient CLIENT;
     @Value("${adafruit.username}")
     private String username;
     private final String TOPIC = "/feeds/";
     private final SimpMessagingTemplate messagingTemplate;
     private final SensorDataRepository sensorDataRepository;
-    private final ThresholdService thresholdService;
-    private final DeviceService deviceService;
-    private final DeviceScheduledService DeviceScheduledService;
+    private final IThresholdService thresholdService;
+    private final IDeviceService deviceService;
+    private final IDeviceScheduledService DeviceScheduledService;
 
-    public MqttService(DeviceScheduledService DeviceScheduledService,MqttProperties properties, SimpMessagingTemplate messagingTemplate, SensorDataRepository sensorDataRepository, ThresholdService thresholdService, DeviceService deviceService) throws MqttSecurityException, MqttException {
+    public MqttService(IDeviceScheduledService DeviceScheduledService,MqttProperties properties, SimpMessagingTemplate messagingTemplate, SensorDataRepository sensorDataRepository, IThresholdService thresholdService, IDeviceService deviceService) throws MqttSecurityException, MqttException {
         this.DeviceScheduledService = DeviceScheduledService;
         this.messagingTemplate = messagingTemplate;
         this.sensorDataRepository = sensorDataRepository;

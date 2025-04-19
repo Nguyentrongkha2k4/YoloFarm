@@ -37,6 +37,7 @@ public class GlobalExceptionHandler {
                             .build());
     }
 
+    @SuppressWarnings("null")
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ResponseObject<User>> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e){
         String key = e.getFieldError().getDefaultMessage();

@@ -1,14 +1,11 @@
-package com.web.yolofarm.service;
+package com.web.yolofarm.service.device;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.web.yolofarm.dto.DeviceLogDto;
-import com.web.yolofarm.dto.SensorDataDto;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import com.web.yolofarm.entity.DeviceActivityLog;
 import com.web.yolofarm.repository.DeviceActivityLogRepository;
@@ -16,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class DeviceService {
+public class DeviceService implements IDeviceService{
     private final DeviceActivityLogRepository deviceActivityLogRepository;
 
     public void logDeviceActivity(String deviceName, String action, String triggeredBy, String reason) {

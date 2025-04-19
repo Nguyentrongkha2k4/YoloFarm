@@ -4,12 +4,8 @@ import com.web.yolofarm.entity.Threshold;
 import com.web.yolofarm.enums.SensorType;
 import com.web.yolofarm.repository.ThresholdRepository;
 import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Controller;
-
-import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor

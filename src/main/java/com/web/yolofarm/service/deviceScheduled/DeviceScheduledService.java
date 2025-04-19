@@ -1,4 +1,4 @@
-package com.web.yolofarm.service;
+package com.web.yolofarm.service.deviceScheduled;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class DeviceScheduledService {
+public class DeviceScheduledService implements IDeviceScheduledService{
     private final DeviceScheduledRepository deviceScheduledRepository;
 
     public DeviceScheduled create(DeviceScheduledCreationRequest request){

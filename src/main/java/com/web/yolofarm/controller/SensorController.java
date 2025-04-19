@@ -1,34 +1,31 @@
 package com.web.yolofarm.controller;
 
+import com.web.yolofarm.dto.ResponseObject;
 import com.web.yolofarm.dto.SensorDataDto;
-import com.web.yolofarm.entity.DeviceActivityLog;
-import com.web.yolofarm.entity.SensorData;
 import com.web.yolofarm.enums.SensorType;
-import com.web.yolofarm.service.DeviceService;
-import com.web.yolofarm.service.SensorService;
+import com.web.yolofarm.service.sensor.ISensorService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/sensor")
 @RequiredArgsConstructor
 public class SensorController {
-    private final SensorService sensorService;
+    private final ISensorService sensorService;
     // lay tat ca
     @GetMapping("/sensors")
-    public ResponseEntity<List<SensorDataDto>> getAllDeviceLogs() {
-        return ResponseEntity.ok().body(sensorService.getAllSensorData());
+    public ResponseObject<List<SensorDataDto>> getAllDeviceLogs() {
+        return ResponseObject.<List<SensorDataDto>>builder().code(200).status(true).data(sensorService.getAllSensorData()).build();
     }
     // lay theo kieu
     @GetMapping("/sensors/{sensorType}")
-    public ResponseEntity<List<SensorDataDto>> getLogsByDevice(@PathVariable String sensorType) throws Exception {
+    public ResponseObject<List<SensorDataDto>> getLogsByDevice(@PathVariable String sensorType) throws Exception {
         SensorType type = null;
         switch (sensorType) {
             case "nhietdo":
@@ -45,17 +42,17 @@ public class SensorController {
                 break;
             default:
         }
-        return ResponseEntity.ok(sensorService.getLogsByType(type));
+        return ResponseObject.<List<SensorDataDto>>builder().code(200).status(true).data(sensorService.getLogsByType(type)).build();
     }
     // lay moi nhat cua cac loai cam bien
     @GetMapping("/sensors/latest")
-    public ResponseEntity<List<SensorDataDto>> getLatestLogsForPumpAndLight() {
+    public ResponseObject<List<SensorDataDto>> getLatestLogsForPumpAndLight() {
         List<SensorDataDto> log = sensorService.getLatestAllSensorDataByType();
-        return ResponseEntity.ok(log);
+        return ResponseObject.<List<SensorDataDto>>builder().code(200).status(true).data(log).build();
     }
     // lay moi nhat cua 1 loai cam bien
     @GetMapping("/sensors/latest/{sensorType}")
-    public ResponseEntity<SensorDataDto> getLatestLogsByDeviceName(@PathVariable String sensorType) throws Exception {
+    public ResponseObject<SensorDataDto> getLatestLogsByDeviceName(@PathVariable String sensorType) throws Exception {
         SensorType type = null;
         switch (sensorType) {
             case "nhietdo":
@@ -73,6 +70,6 @@ public class SensorController {
             default:
         }
         SensorDataDto log = sensorService.getLatestSensorDataByType(type);
-        return ResponseEntity.ok(log);
+        return ResponseObject.<SensorDataDto>builder().code(200).status(true).data(log).build();
     }
 }

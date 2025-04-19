@@ -1,26 +1,17 @@
 package com.web.yolofarm.controller;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web.yolofarm.entity.DeviceActivityLog;
 import com.web.yolofarm.entity.SensorData;
 import com.web.yolofarm.enums.SensorType;
-import com.web.yolofarm.service.DeviceService;
-import com.web.yolofarm.service.MqttService;
-
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController

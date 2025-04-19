@@ -1,45 +1,44 @@
 package com.web.yolofarm.controller;
 
 import com.web.yolofarm.dto.DeviceLogDto;
-import com.web.yolofarm.entity.DeviceActivityLog;
-import com.web.yolofarm.service.DeviceService;
+import com.web.yolofarm.dto.ResponseObject;
+import com.web.yolofarm.service.device.IDeviceService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/devicelog")
 @RequiredArgsConstructor
 public class DeviceActivityLogController {
-    private final DeviceService deviceService;
+    private final IDeviceService deviceService;
 
     // chi danh cho den va may bom
     @GetMapping("/logs")
-    public ResponseEntity<List<DeviceLogDto>> getAllDeviceLogs() {
-        return ResponseEntity.ok().body(deviceService.getAllDeviceLogs());
+    public ResponseObject<List<DeviceLogDto>> getAllDeviceLogs() {
+        return ResponseObject.<List<DeviceLogDto>>builder().code(200).status(true).data(deviceService.getAllDeviceLogs()).build();
     }
 
     @GetMapping("/logs/{deviceName}")
-    public ResponseEntity<List<DeviceLogDto>> getLogsByDevice(@PathVariable String deviceName) {
-        return ResponseEntity.ok(deviceService.getLogsByDeviceName(deviceName));
+    public ResponseObject<List<DeviceLogDto>> getLogsByDevice(@PathVariable String deviceName) {
+        return ResponseObject.<List<DeviceLogDto>>builder().code(200).status(true).data(deviceService.getLogsByDeviceName(deviceName)).build();
     }
     // ban moi nhat cua ca may bom va den
     @GetMapping("/logs/latest")
-    public ResponseEntity<List<DeviceLogDto>> getLatestLogsForPumpAndLight() {
+    public ResponseObject<List<DeviceLogDto>> getLatestLogsForPumpAndLight() {
         List<DeviceLogDto> log = deviceService.getLatestAllLogByDeviceName();
-        return ResponseEntity.ok(log);
+        return ResponseObject.<List<DeviceLogDto>>builder().code(200).status(true).data(log).build();
     }
     // tim ban moi nhat theo ten thiet bi
     @GetMapping("/logs/latest/{deviceName}")
-    public ResponseEntity<DeviceLogDto> getLatestLogsByDeviceName(@PathVariable String deviceName) {
+    public ResponseObject<DeviceLogDto> getLatestLogsByDeviceName(@PathVariable String deviceName) {
         DeviceLogDto log = deviceService.getLatestLogByDeviceName(deviceName);
-        return ResponseEntity.ok(log);
+        return ResponseObject.<DeviceLogDto>builder().code(200).status(true).data(log).build();
     }
 
 

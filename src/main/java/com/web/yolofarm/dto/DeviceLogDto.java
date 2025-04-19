@@ -1,6 +1,5 @@
 package com.web.yolofarm.dto;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

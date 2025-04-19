@@ -4,8 +4,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.stereotype.Component;
 
-import com.web.yolofarm.service.MqttService;
-
+import com.web.yolofarm.service.mqtt.MqttService;
 
 import lombok.RequiredArgsConstructor;
 

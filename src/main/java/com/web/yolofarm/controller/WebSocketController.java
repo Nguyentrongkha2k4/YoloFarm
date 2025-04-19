@@ -6,14 +6,14 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 import com.web.yolofarm.entity.DeviceActivityLog;
-import com.web.yolofarm.service.MqttService;
+import com.web.yolofarm.service.mqtt.IMqttService;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 public class WebSocketController {
-    private final MqttService mqttService;
+    private final IMqttService mqttService;
 
     @MessageMapping("/maybom") 
     @SendTo("/topic/microbit/maybom") 
