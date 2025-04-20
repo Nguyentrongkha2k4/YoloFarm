@@ -37,6 +37,10 @@ public class DeviceScheduledService implements IDeviceScheduledService{
         return deviceScheduledRepository.findByDeviceName(request);
     }
 
+    public List<DeviceScheduled> getallDeviceScheduled(){
+        return deviceScheduledRepository.findAll();
+    };
+
     public DeviceScheduled enableDeviceScheduled(String request){
         DeviceScheduled DeviceScheduled = deviceScheduledRepository.findByDeviceName(request);
 

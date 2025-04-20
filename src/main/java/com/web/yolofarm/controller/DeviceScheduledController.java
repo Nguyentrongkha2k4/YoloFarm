@@ -42,6 +42,15 @@ public class DeviceScheduledController {
         return responseObject;
     }
 
+    @GetMapping("/")
+    public ResponseObject<DeviceScheduled> getall(@PathVariable String deviceName) {
+        ResponseObject<DeviceScheduled> responseObject = ResponseObject.<DeviceScheduled>builder().code(200)
+                                                                .status(true)
+                                                                .data(DeviceScheduledService.getallDeviceScheduled())
+                                                                .build();
+        return responseObject;
+    }
+
     @PostMapping("/enable/{deviceName}")
     public ResponseObject<DeviceScheduled> enableDeviceScheduled(@PathVariable String deviceName) {
         ResponseObject<DeviceScheduled> responseObject = ResponseObject.<DeviceScheduled>builder().code(200)

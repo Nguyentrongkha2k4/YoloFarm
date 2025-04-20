@@ -26,5 +26,5 @@ public class DeviceActivityLog {
 
     private String reason; 
 
-    private LocalDateTime timestamp = LocalDateTime.now(); 
+    private LocalDateTime timestamp; 
 }

@@ -11,4 +11,5 @@ public interface IDeviceScheduledService {
     public DeviceScheduled enableDeviceScheduled(String request);
     public DeviceScheduled update(String id, DeviceScheduledCreationRequest request);
     public List<DeviceScheduled> findAllByEnable();
+    public List<DeviceScheduled> getallDeviceScheduled();
 }
