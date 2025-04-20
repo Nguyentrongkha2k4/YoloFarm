@@ -9,7 +9,10 @@ import com.web.yolofarm.entity.DeviceActivityLog;
 import com.web.yolofarm.service.mqtt.IMqttService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+
+@CrossOrigin(origins = "http://localhost:5173")
 @Controller
 @RequiredArgsConstructor
 public class WebSocketController {

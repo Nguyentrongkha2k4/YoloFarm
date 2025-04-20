@@ -68,7 +68,7 @@ public class ThresholdService implements IThresholdService{
                             .reason("Độ ẩm đất thấp")
                             .timestamp(LocalDateTime.now())
                             .build();
-                } else if (sensorData.getValue() > threshold.getMax()) {
+                } else if (sensorData.getValue() >= (threshold.getMax() + threshold.getMin())/2) {
                     log = DeviceActivityLog.builder()
                             .deviceName("maybom")
                             .action("off")
@@ -87,7 +87,7 @@ public class ThresholdService implements IThresholdService{
                             .reason("Mức sáng thấp")
                             .timestamp(LocalDateTime.now())
                             .build();
-                } else if (sensorData.getValue() > threshold.getMax()) {
+                } else if (sensorData.getValue() >= (threshold.getMax() + threshold.getMin())/2) {
                     log = DeviceActivityLog.builder()
                             .deviceName("den")
                             .action("off")

@@ -36,7 +36,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.cors(cors -> cors.configurationSource(request -> {
                         var corsConfig = new CorsConfiguration();
-                        corsConfig.setAllowedOrigins(List.of("http://localhost:8080", "http://localhost:5173", "https://localhost:5173", "http://yolo-farm-aqp4.vercel.app","https://yolo-farm-aqp4.vercel.app/"));
+                        corsConfig.setAllowedOrigins(List.of("http://localhost:8080", "http://localhost:5173", "https://localhost:5173", "https://smart-yolo-farm.vercel.app","http://smart-yolo-farm.vercel.app"));
                         corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                         corsConfig.setAllowedHeaders(List.of("*"));
                         corsConfig.setExposedHeaders(List.of("Authorization", "Content-Type"));

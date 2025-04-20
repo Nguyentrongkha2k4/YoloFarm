@@ -13,7 +13,10 @@ import com.web.yolofarm.entity.SensorData;
 import com.web.yolofarm.enums.SensorType;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/mqtt")
 @RequiredArgsConstructor
