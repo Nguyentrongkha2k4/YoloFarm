@@ -55,6 +55,7 @@ public class DeviceScheduledService implements IDeviceScheduledService{
         DeviceScheduled.setStartTime(request.getStartTime());
         DeviceScheduled.setIntervalTime(request.getIntervalTime());
         DeviceScheduled.setDuration(request.getDuration());
+        DeviceScheduled.setStatus(request.getStatus());
         
         return deviceScheduledRepository.save(DeviceScheduled);
     }

@@ -1,5 +1,7 @@
 package com.web.yolofarm.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,6 +11,7 @@ import com.web.yolofarm.entity.DeviceScheduled;
 import com.web.yolofarm.service.deviceScheduled.IDeviceScheduledService;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,8 +46,8 @@ public class DeviceScheduledController {
     }
 
     @GetMapping("/")
-    public ResponseObject<DeviceScheduled> getall(@PathVariable String deviceName) {
-        ResponseObject<DeviceScheduled> responseObject = ResponseObject.<DeviceScheduled>builder().code(200)
+    public ResponseObject<List<DeviceScheduled>> getall() {
+        ResponseObject<List<DeviceScheduled>> responseObject = ResponseObject.<List<DeviceScheduled>>builder().code(200)
                                                                 .status(true)
                                                                 .data(DeviceScheduledService.getallDeviceScheduled())
                                                                 .build();

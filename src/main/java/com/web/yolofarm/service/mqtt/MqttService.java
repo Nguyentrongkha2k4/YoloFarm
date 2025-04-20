@@ -74,7 +74,19 @@ public class MqttService implements IMqttService{
                     sensorType = SensorType.SOIL_MOISTURE;
                         break;
                         default:
-                        throw new Exception("Feed is invalid");
+                        DeviceActivityLog sensorData = DeviceActivityLog
+                                            .builder()
+                                            .deviceName(feed)
+                                            .triggeredBy("System")
+                                            .action(Float.parseFloat(payload) == 1 ? "on" : "off")
+                                            .timestamp(LocalDateTime.now())
+                                            .build();
+                        System.out.println("Receive from" + t + ": " + sensorData);
+                
+                        // Gửi dữ liệu đến client qua websocket
+                        messagingTemplate.convertAndSend("/topic/microbit/"+feed, sensorData);
+                        return;
+                        // throw new Exception("Feed is invalid");
                 }
                 SensorData sensorData = SensorData
                                             .builder()

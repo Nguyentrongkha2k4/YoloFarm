@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MqttRunner implements CommandLineRunner {
     private final MqttService mqttService;
-    private final String[] feeds={"nhietdo", "doam", "doamdat", "dosang"};
+    private final String[] feeds={"nhietdo", "doam", "doamdat", "dosang", "den", "maybom"};
     @Override
     public void run(String... args) throws Exception {
         for (String feed : feeds) {
